@@ -1,0 +1,18 @@
+<hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+  <class xmlns="urn:nhibernate-mapping-2.2" name="Scrumee.Data.Entities.UserStory, Scrumee.Data" table="`UserStory`">
+    <id name="Id">
+      <column name="UserStoryId" />
+      <generator class="identity" />
+    </id>
+    <bag cascade="all" inverse="true" name="Tasks">
+      <key>
+        <column name="UserStoryId" />
+      </key>
+      <one-to-many class="Scrumee.Data.Entities.Task, Scrumee.Data" />
+    </bag>
+    <property name="Name" />
+    <many-to-one class="Scrumee.Data.Entities.Project, Scrumee.Data" name="Project">
+      <column name="ProjectId" />
+    </many-to-one>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,60 @@
+﻿@{
+    ViewBag.Title = "Add New User";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#firstName').focus();
+
+        // Click submit button on ENTER key press
+        $('#lastName').keyup(function (event) {
+            if (event.keyCode == 13) {
+                $('#btnSubmit').click();
+            }
+        });
+
+        // Add user
+        $('#btnSubmit').click(function (event) {
+
+            var firstName = $('#firstName').val();
+
+            var lastName = $('#lastName').val();
+
+            if (firstName == '' || lastName == '') {
+                alert("Please enter a name for the new user.");
+            }
+            else {
+
+                var actionUrl = '@Url.Action("AddUser", "Projects")';
+
+                var queryString = '/?firstName=' + firstName + '&lastName=' + lastName;
+
+                window.location.href = actionUrl + queryString;
+            }
+        });
+
+    });
+
+</script>
+
+<div class="navigation">
+
+    @Html.ActionLink("All Projects", "All")
+
+</div>
+
+<div class="sectionTitle">
+    Add New User
+</div>
+
+<div>
+    <h5 style="text-decoration:underline;">New User</h5> <br />
+    
+    User First Name: <input type="text" id="firstName" /> <br /><br />
+    User Last Name: <input type="text" id="lastName" /> <br /><br />
+
+    <input type="button" id="btnSubmit" value="Add New User" />
+</div>

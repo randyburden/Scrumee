@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "TaskDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Scrumee.Data.Entities.Task
+
+<div class="navigation">
+
+    @Html.ActionLink("All Projects", "All") |
+    @Html.ActionLink("(" + @Model.UserStory.Project.ProjectId.ToString() + ") " + @Model.UserStory.Project.Name, "ProjectDetails", new { id=@Model.UserStory.Project.Id} ) |
+    @Html.ActionLink("(" + @Model.UserStory.UserStoryId.ToString() + ") " + @Model.UserStory.Name, "UserStoryDetails", new { id=@Model.UserStory.Id } )
+
+</div>
+
+<div class="sectionTitle">
+    Task Details
+</div>
+
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Task Name</th>
+        <th>Assigned To</th>
+        <th>Edit</th>
+    </tr>
+    <tr class="task" data-id="@Model.Id">
+        <td >@Model.TaskId</td>
+        <td>@Model.Name</td>
+        @if ( @Model.User != null )
+        {
+            <td>@Model.User.FirstName @Model.User.LastName</td> 
+        }
+        else
+        {
+            <td>Unassigned</td> 
+        }
+        <td>Edit</td>
+    </tr>
+</table>

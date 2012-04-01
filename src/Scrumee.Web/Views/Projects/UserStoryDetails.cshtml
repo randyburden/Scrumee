@@ -1,0 +1,189 @@
+﻿@{
+    ViewBag.Title = "User Story Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@model Scrumee.Data.Entities.UserStory
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('.popup').toggle();
+
+        // Hide the editor view
+        $('.editor').hide();
+        $('.addEditor').hide();
+
+        // Show the editor view
+        $('.edit').click(function (event) {
+            $('.reader').hide();
+            $('.editor').show();
+            event.preventDefault();
+        });
+
+        // Close the editor view
+        $('.cancel').click(function (event) {
+            $('.editor').hide();
+            $('.reader').show();
+            event.preventDefault();
+        });
+
+        // Show new task input view
+        $('.addTask').click(function (event) {
+
+            $('.popup').toggle();
+
+            $('#txtName').focus();
+        });
+
+        // Click submit button on ENTER key press
+        $('#txtName').keyup(function (event) {
+            if (event.keyCode == 13) {
+                $('#btnSubmit').click();
+            }
+        });
+
+        // Add task
+        $('#btnSubmit').click(function (event) {
+
+            var name = $('#txtName').val();
+
+            var userId = $('#userId').val();
+
+            var projectId = $('#txtName').attr("data-userStoryId");
+
+            if (name == '') {
+                alert("Please enter a name for the new task.");
+            }
+            else {
+
+                var actionUrl = '@Url.Action("AddTask", "Projects")';
+
+                var queryString = '/?userStoryId=' + projectId + '&name=' + name + '&userId=' + userId;
+
+                window.location.href = actionUrl + queryString;
+            }
+        });
+
+        // Update task
+        $('.update').click(function (event) {
+
+            var id = $(this).attr("data-id");
+
+            var name = $(this).parent().parent().find('.name').val();
+
+            var userId = $(this).parent().parent().find('.user').val();
+
+            var actionUrl = '@Url.Action("UpdateTask", "Projects")';
+
+            var queryString = '?taskId=' + id + '&name=' + name + '&userId=' + userId;
+
+            window.location.href = actionUrl + queryString;
+
+            event.preventDefault();
+        });
+
+        // Delete task
+        $('.delete').click(function (event) {
+
+            var id = $(this).attr("data-id");
+
+            var actionUrl = '@Url.Action("DeleteTask", "Projects")';
+
+            var queryString = '?taskId=' + id;
+
+            window.location.href = actionUrl + queryString;
+
+            event.preventDefault();
+        });
+
+        // Navigate to task details
+        //$('.task').click(function (event) {
+
+        //    var id = $(this).attr("data-id");
+        //            
+        //    var actionUrl = '@Url.Action("TaskDetails", "Projects")';
+
+        //    var queryString = '/?id=' + id;
+
+        //    window.location.href = actionUrl + queryString;
+
+        //    event.preventDefault();
+        //});
+                
+    });
+
+</script>
+
+<div class="navigation">
+
+    @Html.ActionLink("All Projects", "All") |
+    @Html.ActionLink( "(" + @Model.Project.ProjectId.ToString() + ") " + @Model.Project.Name, "ProjectDetails", new { id = @Model.Project.Id } )
+
+</div>
+
+<div class="sectionTitle">
+    Tasks
+</div>
+
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Task Name</th>
+        <th>Assigned To</th>
+        <th>Edit</th>
+    </tr>
+    @foreach ( var task in @Model.Tasks )
+    {
+    <tr>
+        <td >@task.TaskId</td>
+        <td>
+            <span class="reader task" data-id="@task.Id">@task.Name</span>
+            <input type="text" size="40" value="@task.Name" class="editor name" />
+        </td>
+        <td>
+        @if ( @task.User != null )
+        {
+            <span class="reader">@task.User.FirstName @task.User.LastName</span>
+        }
+        else
+        { 
+            <span class="reader">Unassigned</span>
+        }
+            <select class="editor user">
+                <option value="0">Unassigned</option>
+        @foreach ( var user in ( List<Scrumee.Data.Entities.User> )ViewBag.Users )
+        {
+                <option value="@user.Id"@if(user == @task.User){<text>selected="selected"</text>}>@user.FirstName @user.LastName</option>
+        }
+            </select>
+        </td>
+        <td>
+            <a href="#" class="reader edit">Edit</a>
+            <a href="#" class="editor cancel">Cancel</a>
+            <a href="#" class="editor update" data-id="@task.Id">Save</a>
+            <a href="#" class="editor delete" data-id="@task.Id">Delete</a>
+        </td>
+    </tr>
+    }
+    <tr class="addTask">
+        <td colspan="4" style="text-align:right; text-decoration:underline; font-size:.8em;">Add New Task</td>
+    </tr>
+</table>
+
+<div class="popup">
+    <h5 style="text-decoration:underline;">New Task</h5> <br />
+    
+    Task Name: <input type="text" id="txtName" data-userStoryId="@Model.Id" /> 
+    
+    <select id="userId">
+        <option value="0">Unassigned</option>
+    @foreach ( var user in ( List<Scrumee.Data.Entities.User> )ViewBag.Users )
+    {
+        <option value="@user.Id">@user.FirstName @user.LastName</option>
+    }
+        </select>
+
+    <input type="button" id="btnSubmit" value="Create New Task" />
+</div>
