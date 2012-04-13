@@ -38,14 +38,21 @@
     <Reference Include="NHibernate">
       <HintPath>..\..\lib\NHibernate-3.2.0.GA\NHibernate.dll</HintPath>
     </Reference>
+    <Reference Include="SQLite.Designer">
+      <HintPath>..\..\lib\Sqlite-1.0.80.0\SQLite.Designer.dll</HintPath>
+    </Reference>
     <Reference Include="StructureMap">
       <HintPath>..\..\lib\StructureMap-2.6.1\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SQLite, Version=1.0.66.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
-      <HintPath>..\..\lib\Sqlite-1.0.66.0\System.Data.SQLite.dll</HintPath>
+    <Reference Include="System.Data.SQLite, Version=1.0.80.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\lib\Sqlite-1.0.80.0\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq">
+      <HintPath>..\..\lib\Sqlite-1.0.80.0\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
@@ -70,6 +77,11 @@
       <Project>{11676C26-D4D8-4D14-92E3-9D0F356B42B2}</Project>
       <Name>Scrumee.Repositories</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="SQLite.Interop.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
