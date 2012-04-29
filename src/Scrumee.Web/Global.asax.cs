@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Web;
-using System.Web.Management;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 using Scrumee.Repositories;
 using StructureMap;
@@ -44,8 +37,6 @@ namespace Scrumee.Web
 
             RegisterRoutes( RouteTable.Routes );
 
-            LoadAllBinDirectoryAssemblies();
-
             ControllerBuilder.Current.SetControllerFactory( new Scrumee.Infrastructure.StructureMapControllerFactory() );
             
             Scrumee.Infrastructure.StructureMapBootstrapper.BootstrapStructureMap();
@@ -57,56 +48,6 @@ namespace Scrumee.Web
         protected void Application_EndRequest()
         {
             Scrumee.Infrastructure.StructureMapBootstrapper.ReleaseAndDisposeAllHttpScopedObjects();
-        }
-
-        public static void LoadAllBinDirectoryAssemblies()
-        {
-            //string binPath = System.IO.Path.Combine( System.AppDomain.CurrentDomain.BaseDirectory, "bin" );
-
-            string binPath = System.AppDomain.CurrentDomain.BaseDirectory;
-
-            foreach ( string dll in Directory.GetFiles( binPath, "*.dll", SearchOption.AllDirectories ) )
-            {
-                try
-                {
-                    Assembly loadedAssembly = Assembly.LoadFile( dll );
-
-                    new Log( "Successfully loaded: " + dll ).Raise();
-                }
-                catch ( FileLoadException loadEx )
-                {
-                    new Log( "Failed to load: " + dll + " Ex: " + loadEx ).Raise();
-                } // The Assembly has already been loaded.
-                catch ( BadImageFormatException imgEx )
-                {
-                    new Log( "Failed to load: " + dll + "  Ex: " + imgEx ).Raise();
-                } // If a BadImageFormatException exception is thrown, the file is not an assembly.
-
-            } // foreach dll
-
-            string files = "";
-
-            foreach ( string dll in Directory.GetFiles( binPath, "*.dll", SearchOption.AllDirectories ) )
-            {
-                files += dll + ", ";
-            }
-
-            new Log( files );
-        }
-    }
-
-    /// <summary>
-    /// Logs messages as Exceptions without actually throwing an exception
-    /// </summary>
-    /// <remarks>
-    /// This will allow us to view log messages in AppHarbor.com under the "Errors" section
-    /// </remarks>
-    public sealed class Log : WebRequestErrorEvent
-    {
-        public Log( string message )
-            : base( null, null, 100001, new Exception( message ) )
-        {
-            Raise();
         }
     }
 }
