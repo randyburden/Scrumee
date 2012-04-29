@@ -72,11 +72,24 @@ namespace Scrumee.Web
                     new LogEvent( "Successfully loaded: " + dll ).Raise();
                 }
                 catch ( FileLoadException loadEx )
-                { } // The Assembly has already been loaded.
+                {
+                    new LogEvent( "Failed to load: " + dll + " Ex: " + loadEx ).Raise();
+                } // The Assembly has already been loaded.
                 catch ( BadImageFormatException imgEx )
-                { } // If a BadImageFormatException exception is thrown, the file is not an assembly.
+                {
+                    new LogEvent( "Failed to load: " + dll + "  Ex: " + imgEx ).Raise();
+                } // If a BadImageFormatException exception is thrown, the file is not an assembly.
 
             } // foreach dll
+
+            string files = "";
+
+            foreach ( string dll in Directory.GetFiles( binPath, "*.dll", SearchOption.AllDirectories ) )
+            {
+                files += dll + ", ";
+            }
+
+            new LogEvent( files ).Raise();
         }
 
 
