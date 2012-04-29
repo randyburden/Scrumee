@@ -1,6 +1,10 @@
 Scrumee
 -------
 
+Project Home Page: [http://randyburden.com/Scrumee/](http://randyburden.com/Scrumee/)
+
+Live demo hosted on AppHarbor: [http://scrumee.apphb.com](http://scrumee.apphb.com)
+
 ###About###
 
 Scrumee is a very simple SCRUM-inspired project management solution. This project is by no means meant to be used as a real solution but meant to demonstrate .NET software components and frameworks working together for educational purposes only.
