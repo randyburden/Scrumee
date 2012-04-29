@@ -61,7 +61,9 @@ namespace Scrumee.Web
 
         public static void LoadAllBinDirectoryAssemblies()
         {
-            string binPath = System.IO.Path.Combine( System.AppDomain.CurrentDomain.BaseDirectory, "bin" ); // note: don't use CurrentEntryAssembly or anything like that.
+            //string binPath = System.IO.Path.Combine( System.AppDomain.CurrentDomain.BaseDirectory, "bin" );
+
+            string binPath = System.AppDomain.CurrentDomain.BaseDirectory;
 
             foreach ( string dll in Directory.GetFiles( binPath, "*.dll", SearchOption.AllDirectories ) )
             {
