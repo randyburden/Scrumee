@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Scrumee : An ASP.NET + NHibernate web application designed to demonstrate different software libraries and frameworks for educational purposes." />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Scrumee</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/randyburden/Scrumee">Fork Me on GitHub</a>
+
+          <h1 id="project_title">Scrumee</h1>
+          <h2 id="project_tagline">An ASP.NET + NHibernate web application designed to demonstrate different software libraries and frameworks for educational purposes.</h2>
+
+          <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/randyburden/Scrumee/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/randyburden/Scrumee/tarball/master">Download this project as a tar.gz file</a>
+          </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p>Project Home Page: <a href="http://randyburden.com/Scrumee/">http://randyburden.com/Scrumee/</a></p>
+
+<p>Live demo hosted on AppHarbor: <a href="http://scrumee.apphb.com">http://scrumee.apphb.com</a></p>
+
+<h3>Note</h3>
+
+<p>This project is one in a series of projects utilizing Scrumee as the base application to demonstrate different software libraries and frameworks. All of the projects can be found here on Github.com: <a href="https://github.com/randyburden">https://github.com/randyburden</a></p>
+
+<p>Current list of Scrumee projects:</p>
+
+<ul>
+<li>
+<a href="https://github.com/randyburden/Scrumee">Scrumee</a>
+
+<ul>
+<li>The base application using a traditional NHibernate setup + the repository pattern</li>
+</ul>
+</li>
+<li>
+<a href="https://github.com/randyburden/Scrumee.FluentNHibernate">Scrumee.FluentNHibernate</a>
+
+<ul>
+<li>The base application modified for Fluent mappings and configuration</li>
+</ul>
+</li>
+<li>
+<a href="https://github.com/randyburden/Scrumee.Loquacious">Scrumee.Loquacious</a>
+
+<ul>
+<li>The base application modified to use the Loquacious aka Mapping-by-Code API built into NHibernate v3.2+</li>
+</ul>
+</li>
+<li>
+<a href="https://github.com/randyburden/Scrumee.IRepositoryT">Scrumee.IRepositoryT</a>
+
+<ul>
+<li>The base application modified to use a simple IRepository pattern</li>
+</ul>
+</li>
+<li>
+<a href="https://github.com/randyburden/Scrumee.WatiN">Scrumee.WatiN</a>
+
+<ul>
+<li>The base application + WatiN automated UI integration tests</li>
+</ul>
+</li>
+</ul><h3>About</h3>
+
+<p>Scrumee is a very simple SCRUM-inspired project management solution. This project is by no means meant to be used as a real solution but meant to demonstrate .NET software components and frameworks working together for educational purposes only.</p>
+
+<h3>Technologies</h3>
+
+<p>Scrumee uses ASP.NET MVC 3 with a SQLite database backend bridged together using the NHibernate ORM.</p>
+
+<p>Frameworks and libraries used:</p>
+
+<ul>
+<li>ASP.NET MVC 3 with Razor Views</li>
+<li>NHibernate v3.2 ( ORM )</li>
+<li>StructureMap v2.6.1 ( Dependency Injection)</li>
+<li>System.Data.SQLite v1.0.66.0 ( ADO.NET adapter for SQLite )</li>
+</ul><h3>Implementation</h3>
+
+<p>This implementation of Scrumee uses the repository pattern and dependency injection for the separation of concerns benefits.</p>
+
+<p>The NHibernate session management is handled via StructureMap where the SessionFactory is registered as a Singleton for the life of the application and any requests for a new ISession are stored within the current HttpContext thereby making the NHibernate session reusable multiple times if need be during a single request.</p>
+
+<p>The repository also makes use of a technique I am coining as <strong>"The Lazy-Loaded Session-Per-Request Pattern"</strong>. The very simple difference being that the creation of the ISession is "lazy" in that  it is never created needlessly with each request but only created when needed. The standard practice of injecting an ISession into the constructor of a repository can easily lead to situations where NHibernate sessions are being created needlessly such as requests for static pages that never utilize database-driven content such as a typical About web page.</p>
+
+<p>This implementation of NHibernate also utilizes the standard .HBM XML mapping files and the Loquacious ( NHibernate v3.0+ ) configuration API.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Scrumee maintained by <a href="https://github.com/randyburden">randyburden</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
