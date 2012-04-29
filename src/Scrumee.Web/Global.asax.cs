@@ -69,15 +69,15 @@ namespace Scrumee.Web
                 {
                     Assembly loadedAssembly = Assembly.LoadFile( dll );
 
-                    new LogEvent( "Successfully loaded: " + dll ).Raise();
+                    new Log( "Successfully loaded: " + dll ).Raise();
                 }
                 catch ( FileLoadException loadEx )
                 {
-                    new LogEvent( "Failed to load: " + dll + " Ex: " + loadEx ).Raise();
+                    new Log( "Failed to load: " + dll + " Ex: " + loadEx ).Raise();
                 } // The Assembly has already been loaded.
                 catch ( BadImageFormatException imgEx )
                 {
-                    new LogEvent( "Failed to load: " + dll + "  Ex: " + imgEx ).Raise();
+                    new Log( "Failed to load: " + dll + "  Ex: " + imgEx ).Raise();
                 } // If a BadImageFormatException exception is thrown, the file is not an assembly.
 
             } // foreach dll
@@ -89,18 +89,22 @@ namespace Scrumee.Web
                 files += dll + ", ";
             }
 
-            new LogEvent( files ).Raise();
+            new Log( files );
         }
-
-
     }
 
-    public class LogEvent : WebRequestErrorEvent
+    /// <summary>
+    /// Logs messages as Exceptions without actually throwing an exception
+    /// </summary>
+    /// <remarks>
+    /// This will allow us to view log messages in AppHarbor.com under the "Errors" section
+    /// </remarks>
+    public sealed class Log : WebRequestErrorEvent
     {
-        public LogEvent( string message )
+        public Log( string message )
             : base( null, null, 100001, new Exception( message ) )
         {
-            System.Diagnostics.Trace.WriteLine( message );
+            Raise();
         }
     }
 }
